@@ -3,10 +3,14 @@ Docker: Utilização prática no Cenário de Microsserviços no bootcamp Linux E
 
 ## Contextualização
 Este projeto desafiador visa a implementação de uma estrutura de **Microsserviços** com as melhores práticas do mercado internacional e as benesses que esta proporciona com o desmembramento em *serviços independentes*.
+
 Estes serviços (antes com *arquitetura monolítica*) agora separados comunicam-se entre si usando **APIs** proporcionando agilidade entre os times de desenvolvimento, o uso de linguagens de programação diversas entre os serviços, a **escalabilidade**  é aplicada de acordo com a necessidade para cada serviço, etc.
+
 É aplicado o conceito de **clusterização** onde pressupõe que você tenha três máquinas virtuais rodando na AWS e com as portas padrão liberadas dos serviços utilizados neste lab.
 Trabalharemos com o banco de dados **mysql**, o **servidor web apache** + **PHP** e o proxy **NGINX**.
+
 O orquestrador dos containers usado é o **Docker Swarm** ao grupo de hosts do docker formando um cluster Swarm.
+
 Para entendimento as três VM´s na **AWS** rodarão o **Ubuntu Linux** e terão o nome como *aws-1*, *aws-2* e *aws-3* sendo que a aws-1 será a LEADER e as demais WORKER no Docker Swarm.
 
 ## Passos iniciais
@@ -76,9 +80,10 @@ Com o *proxy NGINX* as requisições que caiam na VM aws-1 poderão ser replicad
     A *porta de acesso ao proxy é a 4500*.
     O cluster separará as requisições automaticamente em cada container da aplicação app.
 2. Com o arquivo `nginx.conf` alterado, é necessário mandá-lo para dentro do container do proxy a ser criado e para isso crie o arquivo Dockerfile em */proxy* e use o modelo disponível neste projeto.
-No diretório *`/proxy`* você deve ter dois arquivos: `Dockerfile` e `nginx.conf`
-3. Agora vamos subir o container com esta configuração criada com o comando `docker build -t proxy-app .` com o nome de *`proxy-app`*.
-4. Na VM aws-1 as imagens esperadas do docker quando executado `docker image ls` são:
+   
+    No diretório *`/proxy`* você deve ter dois arquivos: `Dockerfile` e `nginx.conf`
+1. Agora vamos subir o container com esta configuração criada com o comando `docker build -t proxy-app .` com o nome de *`proxy-app`*.
+2. Na VM aws-1 as imagens esperadas do docker quando executado `docker image ls` são:
 `proxy-app
 mysql
 nginx
@@ -89,24 +94,25 @@ webdevops/php-apache`
 ## Estressando o cluster ###
 Agora vamos testar se o proxy vai distribuir a carga para todo o cluster com o auxílio do serviço *loader.io*.
 1.) No serviço *loader.io* a porta do host da VM aws-1 será a 4500 que é a do proxy NGINX. Isso gerará um novo arquivo de identificação que deverá ser copiado o seu nome e extensão e replicado como um novo arquivo e o seu conteúdo é o seu nome, desprezando a sua extensão. 
-Faça isso na VM aws-1 no caminho:
 
-`/var/lib/docker/volumes/app/_data`
+    Faça isso na VM aws-1 no caminho:
 
-Neste diretório você deverá ter um arquivo como:
-`index.php
-loaderio-hash1.txt
-loaderio-hash2.txt` >>>>>> Este aqui é o novo arquivo que você criou neste passo e o 
-                                                    seu conteúdo é o seu próprio nome do arquivo !!!
+    `/var/lib/docker/volumes/app/_data`
+
+    Neste diretório você deverá ter um arquivo como:
+    `index.php
+    loaderio-hash1.txt
+    loaderio-hash2.txt` >>>>>> Este aqui é o novo arquivo que você criou neste passo e o 
+                                                        seu conteúdo é o seu próprio nome do arquivo !!!
 
 2.) Vá para o serviço do *loader.io* e clique no botão **Verify** e aguarde os resultados.
 3.) Vamos executar os testes de estresses no cluster:
-Clique em *Tests*
-*Add New Test*
-*GET*
-*HTTP*
-Preencha os demais campos como desejado e observe se o host da VM aws-1 está apontado para a porta do proxy que é a 4500.
-`index.php` como Path.
+    Clique em *Tests*
+    *Add New Test*
+    *GET*
+    *HTTP*
+    Preencha os demais campos como desejado e observe se o host da VM aws-1 está apontado para a porta do proxy que é a 4500.
+    `index.php` como Path.
 
 4.) Verifique na sua IDE do mysql ser os hosts estão sendo alterados, ou seja, se a inclusão dos registros estão sendo feitas de hosts diferentes.
 
