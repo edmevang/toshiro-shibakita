@@ -2,13 +2,13 @@
 Docker: Utilização prática no Cenário de Microsserviços no bootcamp Linux Experience
 
 ## Contextualização
-Este projeto desafiador visa a implementação de uma estrutura de **Microsserviços** com as melhores práticas do mercado internacional e as benesses que esta proporciona com
-o desmembramento em *serviços independentes*.
-Estes serviços (antes com *arquitetura monolítica*) agora separados comunicam-se entre eles usando **APIs** proporcionando agilidade entre os times de desenvolvimento, lidar com várias linguagens de programação entre os serviços, **escalabilidade** de acordo com a necessidade para cada serviço, etc.
-É aplicado o conceito de **clusterização** onde pressupõe que você tenha três máquinas virtuais na AWS rodando e com as portas padrão liberadas dos serviços utilizados neste lab.
+Este projeto desafiador visa a implementação de uma estrutura de **Microsserviços** com as melhores práticas do mercado internacional e as benesses que esta proporciona com o desmembramento em *serviços independentes*.
+Estes serviços (antes com *arquitetura monolítica*) agora separados comunicam-se entre si usando **APIs** proporcionando agilidade entre os times de desenvolvimento, o uso de linguagens de programação diversas entre os serviços, a **escalabilidade**  é aplicada de acordo com a necessidade para cada serviço, etc.
+É aplicado o conceito de **clusterização** onde pressupõe que você tenha três máquinas virtuais rodando na AWS e com as portas padrão liberadas dos serviços utilizados neste lab.
 Trabalharemos com o banco de dados **mysql**, o **servidor web apache** + **PHP** e o proxy **NGINX**.
 O orquestrador dos containers usado é o **Docker Swarm** ao grupo de hosts do docker formando um cluster Swarm.
 Para entendimento as três VM´s na **AWS** rodarão o **Ubuntu Linux** e terão o nome como *aws-1*, *aws-2* e *aws-3* sendo que a aws-1 será a LEADER e as demais WORKER no Docker Swarm.
+
 ## Passos iniciais
 1. Pegar o IP Público da VM aws-1 para acesso remoto no terminal. 
     No *Windows* utilize o *Putty* e no Linux o seu próprio *terminal* como *root*.
@@ -27,6 +27,7 @@ Para entendimento as três VM´s na **AWS** rodarão o **Ubuntu Linux** e terão
 ### Estressando o Container ###
 Pergunta: Vou precisar aumentar a quantidade de máquinas, as três VM´s que eu tenho na AWS EC2 ???
 Os passos abaixo são para responder a pergunta acima.
+
 1. Acessar o site **loader.io** e criar uma conta gratuíta nele.
 2. Já logado neste serviço, informar o IP Público da VM aws-1 em *Domain* após clicar em *Target Host* e *New target host*; Copiar o nome do arquivo informado pelo serviço *loader.io* parecido como *loaderio-hash1* no volume espelhado dentro do container com o mesmo nome.
     Os comandos a seguir são o que devem ser executados no container da VM aws-1 e alterado o nome do arquivo informado pelo serviço *loader.io*:
